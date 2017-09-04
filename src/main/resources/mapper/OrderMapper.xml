@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pangpang.mapper.OrdersMapper" >
+    <resultMap id="BaseResultMap" type="com.pangpang.pojo.Orders" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="buyer" property="buyer" jdbcType="VARCHAR" />
+        <result column="product" property="product" jdbcType="VARCHAR" />
+        <result column="number" property="number" jdbcType="INTEGER"/>
+        <result column="salePrice" property="salePrice" jdbcType="DOUBLE" />
+        <result column="hkPrice" property="hkPrice" jdbcType="DOUBLE" />
+        <result column="purchaseDate" property="purchaseDate" jdbcType="DATE" />
+        <result column="operDate" property="operDate" jdbcType="DATE" />
+        <result column="state" property="state" jdbcType="TINYINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, buyer, product, number, salePrice,hkPrice,purchaseDate,state
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap"  >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM orders
+    </select>
+
+    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM orders
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.pangpang.pojo.Orders" >
+        INSERT INTO
+        orders
+        (buyer, product, number, salePrice,hkPrice,purchaseDate,operDate,state)
+        VALUES
+        (#{buyer}, #{product}, #{number}, #{salePrice}, #{hkPrice}, #{purchaseDate}, now(),0)
+    </insert>
+
+    <update id="update" parameterType="com.pangpang.pojo.Orders" >
+        UPDATE
+        orders
+        SET
+        <if test="buyer != null">buyer = #{buyer},</if>
+        <if test="product != null">product = #{product},</if>
+        number = #{number},
+        salePrice = #{salePrice},
+        hkPrice = #{hkPrice},
+        purchaseDate = #{purchaseDate},
+        state = #{state}
+
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long" >
+        DELETE FROM
+        orders
+        WHERE
+        id =#{id}
+    </delete>
+
+</mapper>
