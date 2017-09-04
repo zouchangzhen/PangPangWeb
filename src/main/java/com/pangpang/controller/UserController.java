@@ -1,5 +1,6 @@
 package com.pangpang.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.pangpang.mapper.UserMapper;
 import com.pangpang.pojo.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class UserController {
     @RequestMapping("/getUsers")
     public List<UserEntity> getUsers() {
         List<UserEntity> users=userMapper.getAll();
+
         return users;
     }
 

@@ -1,5 +1,7 @@
 package com.pangpang.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.pangpang.pojo.Orders;
 import com.pangpang.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,14 @@ public class OrderController {
     @Autowired
     private OrdersService orderService;
 
-    @RequestMapping("/getOrders")
-    public List<Orders> getOrders() {
+    @RequestMapping("/getOrders/{pageNum}/{pageSize}")
+    public PageInfo<Orders> getOrders(@PathVariable("pageNum") int pageNum,@PathVariable("pageSize") int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<Orders> orders=orderService.getAll();
-        return orders;
+
+        PageInfo<Orders> pOrders =  new PageInfo<Orders>(orders);
+
+        return pOrders;
     }
 
     @RequestMapping("/getOrder")
