@@ -20,7 +20,9 @@
     <select id="getAll" resultMap="BaseResultMap"  >
         SELECT
         <include refid="Base_Column_List" />
-        FROM orders
+        FROM orders where (1=1)
+        <if test="buyer != null"> and buyer = #{buyer},</if>
+        <if test="purchaseDate != null"> and purchaseDate = #{purchaseDate}</if>
     </select>
 
     <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap" >
@@ -28,6 +30,7 @@
         <include refid="Base_Column_List" />
         FROM orders
         WHERE id = #{id}
+
     </select>
 
     <insert id="insert" parameterType="com.pangpang.pojo.Orders" >
@@ -35,7 +38,7 @@
         orders
         (buyer, product, number, salePrice,hkPrice,purchaseDate,operDate,state)
         VALUES
-        (#{buyer}, #{product}, #{number}, #{salePrice}, #{hkPrice}, #{purchaseDate}, now(),0)
+        (#{buyer}, #{product}, #{number}, #{salePrice}, #{hkPrice}, now(), now(),0)
     </insert>
 
     <update id="update" parameterType="com.pangpang.pojo.Orders" >
